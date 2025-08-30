@@ -47,7 +47,7 @@ inputs:
 outputs:
   gh-release:
     description: "The GitHub Release url"
-    value: ${{ runs.steps.gh-release.outputs.url }}
+    value: ${{ steps.gh-release.outputs.url }}
 runs:
   using: "composite"
   steps:
