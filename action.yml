@@ -106,7 +106,7 @@ runs:
       run: |
         git config user.name "${{ inputs.git-username }}"
         git config user.email "${{ inputs.git-email }}"
-        git push origin HEAD:$BRANCH
+        git push origin HEAD:$BRANCH -f
 
     - name: "Push Changelog to Version Branch"
       id: commit-version-branch
@@ -117,7 +117,7 @@ runs:
       run: |
         git config user.name "${{ inputs.git-username }}"
         git config user.email "${{ inputs.git-email }}"
-        git push origin HEAD:$VERSION_BRANCH
+        git push origin HEAD:$VERSION_BRANCH -f
 
     - name: "Create Git Tag"
       id: create-git-tag
@@ -129,6 +129,7 @@ runs:
         git config user.name "${{ inputs.git-username }}"
         git config user.email "${{ inputs.git-email }}"
         git tag v$VERSION -m "Release version $VERSION"
+        git push origin v$VERSION -f
 
     - name: "Verify Version"
       id: python-version-verify
