@@ -19,6 +19,14 @@ inputs:
   github-token:
     description: "The GitHub token"
     required: true
+  git-username:
+    description: "The git username for commits"
+    required: false
+    default: "github-actions[bot]"
+  git-email:
+    description: "The git email for commits"
+    required: false
+    default: "41898282+github-actions[bot]@users.noreply.github.com"
   pypi-username:
     description: "The PyPi token"
     required: false
@@ -78,8 +86,8 @@ runs:
         GITHUB_TOKEN: ${{ inputs.github-token }}
         BRANCH: ${{ inputs.ref }}
       run: |
-        git config user.name "github-actions[bot]"
-        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config user.name "${{ inputs.git-username }}"
+        git config user.email "${{ inputs.git-email }}"
         DATE=$(date +'%Y-%m-%d')
         sed -i "/These changes are available on the \`.*\` branch, but have not yet been released\./{N;d;}" CHANGELOG.md
         sed -i "s/## \[Unreleased\]/## [$VERSION] - $DATE/" CHANGELOG.md
@@ -96,8 +104,8 @@ runs:
         GITHUB_TOKEN: ${{ inputs.github-token }}
         BRANCH: ${{ inputs.ref }}
       run: |
-        git config user.name "github-actions[bot]"
-        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config user.name "${{ inputs.git-username }}"
+        git config user.email "${{ inputs.git-email }}"
         git push origin HEAD:$BRANCH
 
     - name: "Push Changelog to Version Branch"
@@ -107,8 +115,8 @@ runs:
         GITHUB_TOKEN: ${{ inputs.github-token }}
         VERSION_BRANCH: ${{ inputs.version-branch-name }}
       run: |
-        git config user.name "github-actions[bot]"
-        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config user.name "${{ inputs.git-username }}"
+        git config user.email "${{ inputs.git-email }}"
         git push origin HEAD:$VERSION_BRANCH
 
     - name: "Create Git Tag"
@@ -118,8 +126,8 @@ runs:
         VERSION: ${{ inputs.version }}
         GITHUB_TOKEN: ${{ inputs.github-token }}
       run: |
-        git config user.name "github-actions[bot]"
-        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config user.name "${{ inputs.git-username }}"
+        git config user.email "${{ inputs.git-email }}"
         git tag v$VERSION -m "Release version $VERSION"
 
     - name: "Verify Version"
