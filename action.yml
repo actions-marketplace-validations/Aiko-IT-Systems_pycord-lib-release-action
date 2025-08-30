@@ -161,10 +161,12 @@ runs:
         target_commitish: ${{ inputs.ref }}
 
     - name: "Publish package distributions to PyPI"
-      uses: pypa/gh-action-pypi-publish@v1.9.0
+      uses: pypa/gh-action-pypi-publish@v1.12.4
       env:
         name: "pypi"
         url: "https://pypi.org/p/${{ inputs.pypi-package }}"
       with:
         password: ${{ inputs.pypi-token }}
         user: ${{ inputs.pypi-username }}
+        attestations: false
+        verify-metadata: false
